@@ -16,6 +16,12 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @RequestMapping("/name")
+    public ArrayList<User> unicorn(@RequestParam(value="first_name")String first_name){
+        ArrayList<User> users = userService.getFirstName(first_name);
+        return users;
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public ArrayList<User> getUsers() {
         return userService.getAllUsers();

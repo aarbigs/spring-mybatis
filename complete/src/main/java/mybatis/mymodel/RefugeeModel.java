@@ -3,10 +3,12 @@ package mybatis.mymodel;
 /**
  * Created by aaron on 7/24/17.
  */
-public class RefugeeModel {
+public class RefugeeModel{
 
     int id;
     int year;
+    int year1;
+    int year2;
     String origin;
     int refugees;
     int credits;
@@ -20,6 +22,12 @@ public class RefugeeModel {
     double y2002;
 
     public RefugeeModel(){}
+
+    public RefugeeModel(int Year1, int Year2, String country_territory){
+        this.year1 = year1;
+        this.year2 = year2;
+        this.country_territory = country_territory;
+    }
 
     public RefugeeModel(int Year, String country_territory, String origin){
         this.year = year;
@@ -41,6 +49,22 @@ public class RefugeeModel {
         this.y2000 = y2000;
         this.y2001 = y2001;
         this.y2002 = y2002;
+    }
+
+    public int getYear1() {
+        return year1;
+    }
+
+    public void setYear1(int year1) {
+        this.year1 = year1;
+    }
+
+    public int getYear2() {
+        return year2;
+    }
+
+    public void setYear2(int year2) {
+        this.year2 = year2;
     }
 
     public int getYear() {

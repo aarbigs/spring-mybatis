@@ -24,6 +24,7 @@ public interface UserMapper {
     String GET_BY_FIRST_NAME = "SELECT * FROM `mybatis-test`.Users where first_name = #{first_name}";
     String UPDATE_USER = "UPDATE `mybatis-test`.Users set first_name=#{first_name}, last_name=#{last_name}, isActive=#{isActive} where id=#{id}";
     String DELETE_USER = "UPDATE `mybatis-test`.Users SET isActive=0 WHERE id=#{id}";
+    String GET_FIRST_NAME = "SELECT * FROM `mybatis-test`.Users WHERE first_name = #{first_name}";
 
     @Insert(INSERT_USER)
     public void addNew(User user);
@@ -37,6 +38,8 @@ public interface UserMapper {
     @Update(DELETE_USER)
     public int deleteUserById (int id);
 
+    @Select(GET_FIRST_NAME)
+    public ArrayList<User> getFirstName(String first_name);
 
 
 

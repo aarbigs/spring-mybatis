@@ -36,4 +36,8 @@ public class RefugeeService {
         return refugeeMapper.getByID(id);
     }
 
+    public int getRefugeeNumber(int year1, int year2, String country_territory){
+        return refugeeMapper.getRefugeeNumber(year1, year2, country_territory);
+    }
+
 }

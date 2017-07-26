@@ -39,5 +39,12 @@ public class RefugeeController {
     public RefugeeModel getById(@RequestParam(value="id")int id) {
         return refugeeService.getByID(id);
     }
+    @RequestMapping(value = "/custom", method = RequestMethod.GET)
+    public int getCustom(@RequestParam(value="year1")int year1,
+                                  @RequestParam(value="year2")int year2,
+                                  @RequestParam(value="country_territory")String country_territory) {
+        System.out.println(refugeeService.getRefugeeNumber(year1, year2, country_territory));
+        return refugeeService.getRefugeeNumber(year1, year2, country_territory);
+    }
 
-   }
+}

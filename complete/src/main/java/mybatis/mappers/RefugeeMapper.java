@@ -16,6 +16,7 @@ public interface RefugeeMapper {
     String GET_BY_ID = "SELECT * FROM immigrants.refugees_all where id=#{id}";
     String UPDATE_REFUGEE_YEAR = "UPDATE immigrants.refugees_all set Year=#{Year} where id=#{id}";
     String DELETE_REFUGEE = "DELETE FROM immigrants.refugees_all WHERE id=#{id}";
+    String GET_FROM_COUNTRY = "SELECT sum(refugees) as sum_refugees from `immigrants`.refugees_all where year between year=#{year1} and year=#{year2} and country_territory=#{country_territory};";
 
     @Insert(INSERT_REFUGEE)
     public int addNew(RefugeeModel refugee);
@@ -28,5 +29,8 @@ public interface RefugeeMapper {
 
     @Delete(DELETE_REFUGEE)
     public int deleteRefById(int id);
+
+    @Select(GET_FROM_COUNTRY)
+    int getRefugeeNumber(@Param("year1")int year1, @Param("year2") int year2, @Param("country_territory") String country_territory);
 
 }

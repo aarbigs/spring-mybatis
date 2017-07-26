@@ -84,4 +84,9 @@ public class UserService {
         return userMapper.deleteUserById(id);
 
     }
+
+    public ArrayList<User> getFirstName(String first_name) {
+        ArrayList<User> users = userMapper.getFirstName(first_name);
+        return users;
+    }
 }

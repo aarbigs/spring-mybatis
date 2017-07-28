@@ -1,4 +1,6 @@
-package mybatis.mymodel;
+package mybatis.mymodel.Beermodel;
+
+import mybatis.mymodel.Location;
 
 /**
  * Created by aaron on 7/25/17.

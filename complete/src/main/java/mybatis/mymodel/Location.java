@@ -1,5 +1,7 @@
 package mybatis.mymodel;
 
+import mybatis.mymodel.Beermodel.Country;
+
 /**
  * Created by aaron on 7/25/17.
  */

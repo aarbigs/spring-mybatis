@@ -1,10 +1,8 @@
 package mybatis.controllers;
 
-import mybatis.mymodel.Beer;
-import mybatis.mymodel.BeerHomework;
+import mybatis.mymodel.Beermodel.Beer;
+import mybatis.mymodel.Beermodel.BeerHomework;
 import mybatis.services.BeerService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

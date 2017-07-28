@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/immigrants")
 
 public class RefugeeController {
+
     @Autowired
     RefugeeService refugeeService;
 
@@ -39,6 +40,7 @@ public class RefugeeController {
     public RefugeeModel getById(@RequestParam(value="id")int id) {
         return refugeeService.getByID(id);
     }
+
     @RequestMapping(value = "/custom", method = RequestMethod.GET)
     public int getCustom(@RequestParam(value="year1")int year1,
                                   @RequestParam(value="year2")int year2,

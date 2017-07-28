@@ -1,4 +1,4 @@
-package mybatis.mymodel;
+package mybatis.mymodel.Beermodel;
 
 /**
  * Created by aaron on 7/25/17.

@@ -21,7 +21,6 @@ public class RefugeeService {
 //    }
     public int addNew(RefugeeModel refugee) {
         return refugeeMapper.addNew(refugee);
-//        return refugeeMapper.get(refugee.getId());
     }
 //
     public RefugeeModel updateRefById(RefugeeModel refugee) {

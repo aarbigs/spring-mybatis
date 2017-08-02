@@ -53,7 +53,6 @@ public class DarkSkyController {
         return darkSkyService.getForecastByLatLngWkly(lat, lng);
     }
 
-    //Create
     // ryan says stop looking at this method
     @RequestMapping(method = RequestMethod.GET, value = "/weather/weeklyDB")
     public ArrayList<DarkSkyNumber5> addNew(@RequestParam(value="lat")double lat, @RequestParam(value="lng")double lng) {

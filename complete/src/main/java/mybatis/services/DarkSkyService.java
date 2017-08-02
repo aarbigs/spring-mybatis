@@ -148,6 +148,7 @@ public class DarkSkyService {
                 darkSkyNumber5.setTemperatureMax(darkSky.getDaily().getData()[i].getTemperatureMax());
                 darkSkyNumber5.setWindSpeed(darkSky.getDaily().getData()[i].getWindSpeed());
                 darkSkyNumber5ArrayList.add(darkSkyNumber5);
+
             }
             weatherMapper.addNew(darkSkyNumber5ArrayList.get(7));
             return darkSkyNumber5ArrayList;
@@ -158,31 +159,33 @@ public class DarkSkyService {
             return darkSkyNumber5ArrayList;
         }
     }
-
-    private boolean populateMissingDataDB() {
-        //Check the database to see if you have the most recent forecast - <today> plus seven days
-        // If we do have the most recent forecast then return that forecast (today + seven days from the database)
-        // If we do not have the most recent forecast we need to call the darksky api and insert the last day of the forecast
-        return false;
-    }
-
-    public int initialDBPopulation(double latitude, double longitude) {
-        ArrayList<DarkSkyNumber5> darkSkyNumber5ArrayList = getForecastByLatLngWkly(latitude, longitude);
-        for (int i = 0 ; i < darkSkyNumber5ArrayList.size() ; i++){
-            weatherMapper.addNew(darkSkyNumber5ArrayList.get(i));
-        }
-        return 1;
-    }
+//
+//    private boolean populateMissingDataDB() {
+//        //Check the database to see if you have the most recent forecast - <today> plus seven days
+//        // If we do have the most recent forecast then return that forecast (today + seven days from the database)
+//        // If we do not have the most recent forecast we need to call the darksky api and insert the last day of the forecast
+//        return false;
+//    }
+//
+//    public int initialDBPopulation(double latitude, double longitude) {
+//        ArrayList<DarkSkyNumber5> darkSkyNumber5ArrayList = getForecastByLatLngWkly(latitude, longitude);
+//        for (int i = 0 ; i < darkSkyNumber5ArrayList.size() ; i++){
+//            weatherMapper.addNew(darkSkyNumber5ArrayList.get(i));
+//        }
+//        return 1;
+//    }
 
     private boolean populateDB() {
         Date date = new Date();
         date = addEightDays(date);
         System.out.println(weatherMapper.getMostRecentDate());
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         String dbDateStr = sdf.format(date);
-        String dbDateStr2 = sdf.format(weatherMapper.getMostRecentDate());
+        //String dbDateStr2 = sdf.format(weatherMapper.getMostRecentDate());
         System.out.println(dbDateStr);
-        int val = dbDateStr2.compareTo(dbDateStr);
+        //int val = dbDateStr2.compareTo(dbDateStr);
+        int val = weatherMapper.getMostRecentDate().compareTo(dbDateStr);
+        System.out.println(val);
             if(val == 0) {
                 return false;
             }else {

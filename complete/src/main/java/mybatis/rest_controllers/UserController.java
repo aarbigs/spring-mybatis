@@ -1,9 +1,7 @@
-package mybatis.controllers;
+package mybatis.rest_controllers;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicLong;
 
-import mybatis.mymodel.Greeting;
 import mybatis.mymodel.User;
 import mybatis.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

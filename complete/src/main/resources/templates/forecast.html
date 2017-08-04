@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Weather Forecast</title>
+</head>
+<style>
+td {
+color:red;
+text-align:
+}
+tr {
+color: black;
+text-align: center;
+}
+</style>
+<div>
+
+    <table class="table table-striped" width="100%" border="0" cellspacing="0" cellpadding="0">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>date</th>
+            <th>summary</th>
+            <th>sunrise</th>
+            <th>sunset</th>
+            <th>precipitation</th>
+            <th>temperature</th>
+            <th>wind speed</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="weeklyForecast : ${weeklyForecasts}">
+            <td th:text="${weeklyForecast.id}">id</td>
+            <td th:text="${weeklyForecast.date}">date</td>
+            <td th:text="${weeklyForecast.summary}">summary</td>
+            <td th:text="${weeklyForecast.sunrise}">sunrise</td>
+            <td th:text="${weeklyForecast.sunset}">sunset</td>
+            <td th:text="${weeklyForecast.precipProbability}">precip</td>
+            <td th:text="${weeklyForecast.temperatureMax}">temperature</td>
+            <td th:text="${weeklyForecast.windSpeed}">wind speed</td>
+            <br/>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</html>

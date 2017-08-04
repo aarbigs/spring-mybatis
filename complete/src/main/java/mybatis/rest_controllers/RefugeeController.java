@@ -1,6 +1,4 @@
-package mybatis.controllers;
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicLong;
+package mybatis.rest_controllers;
 
 import mybatis.mymodel.RefugeeModel;
 import mybatis.services.RefugeeService;

@@ -51,7 +51,6 @@ public class DarkSkyService {
 
     public Location getForecastByLatLngDate(double lati, double longi, String dateStr) {
         String url = "https://api.darksky.net/forecast/bc22b26533e2408b35a0f5fa86ec8efd/"+lati+","+longi+","+TimeToSeconds(dateStr);
-        System.out.println(url);
         Location darkSky = restTemplate.getForObject(
                 url, Location.class);
         return darkSky;
@@ -148,7 +147,7 @@ public class DarkSkyService {
                 darkSkyNumber5.setTemperatureMax(darkSky.getDaily().getData()[i].getTemperatureMax());
                 darkSkyNumber5.setWindSpeed(darkSky.getDaily().getData()[i].getWindSpeed());
                 darkSkyNumber5ArrayList.add(darkSkyNumber5);
-
+                //weatherMapper.addNew(darkSkyNumber5);
             }
             weatherMapper.addNew(darkSkyNumber5ArrayList.get(7));
             return darkSkyNumber5ArrayList;
@@ -167,13 +166,27 @@ public class DarkSkyService {
 //        return false;
 //    }
 //
-//    public int initialDBPopulation(double latitude, double longitude) {
-//        ArrayList<DarkSkyNumber5> darkSkyNumber5ArrayList = getForecastByLatLngWkly(latitude, longitude);
-//        for (int i = 0 ; i < darkSkyNumber5ArrayList.size() ; i++){
-//            weatherMapper.addNew(darkSkyNumber5ArrayList.get(i));
-//        }
-//        return 1;
-//    }
+    public int initialDBPopulation(double lati, double longi) {
+        String url = "https://api.darksky.net/forecast/bc22b26533e2408b35a0f5fa86ec8efd/" + lati + "," + longi;
+        Location darkSky = restTemplate.getForObject(url, Location.class);
+        DarkSkyNumber5 darkSkyNumber5;
+        for (int i = 0; i < darkSky.getDaily().getData().length; i++) {
+
+            darkSkyNumber5 = new DarkSkyNumber5();
+
+            darkSkyNumber5.setDate(dateStringFromSeconds(darkSky.getDaily().getData()[i].getTime()));
+            darkSkyNumber5.setSummary(darkSky.getDaily().getData()[i].getSummary());
+            darkSkyNumber5.setSunrise(dateStringFromSeconds(darkSky.getDaily().getData()[i].getSunriseTime()));
+            darkSkyNumber5.setSunset(dateStringFromSeconds(darkSky.getDaily().getData()[i].getSunsetTime()));
+            darkSkyNumber5.setPrecipProbability(darkSky.getDaily().getData()[i].getPrecipProbability());
+            darkSkyNumber5.setTemperatureMax(darkSky.getDaily().getData()[i].getTemperatureMax());
+            darkSkyNumber5.setWindSpeed(darkSky.getDaily().getData()[i].getWindSpeed());
+            darkSkyNumber5.setLatitude(darkSky.getLatitude());
+            darkSkyNumber5.setLongitude(darkSky.getLongitude());
+            weatherMapper.addNew(darkSkyNumber5);
+        }
+        return 1;
+    }
 
     private boolean populateDB() {
         Date date = new Date();
@@ -184,14 +197,18 @@ public class DarkSkyService {
         //String dbDateStr2 = sdf.format(weatherMapper.getMostRecentDate());
         System.out.println(dbDateStr);
         //int val = dbDateStr2.compareTo(dbDateStr);
-        int val = weatherMapper.getMostRecentDate().compareTo(dbDateStr);
-        System.out.println(val);
-            if(val == 0) {
+        try {
+            int val = weatherMapper.getMostRecentDate().compareTo(dbDateStr);
+            System.out.println(val);
+            if (val == 0) {
                 return false;
-            }else {
+            } else {
                 return true;
             }
+        } catch (Exception e){
+            return false;
         }
+    }
         //ask DB for most recent forecast date
 
     public Date addEightDays(Date date){

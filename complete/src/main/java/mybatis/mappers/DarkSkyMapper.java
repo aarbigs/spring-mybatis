@@ -14,7 +14,9 @@ import java.util.ArrayList;
 @Mapper
 public interface DarkSkyMapper {
 
-    String INSERT_FORECAST = "INSERT INTO `weatherAPIDb`.WeatherForecast (date, summary, sunrise, sunset, precipProbability, temperatureMax, windSpeed, latitude, longitude) values (#{date}, #{summary}, #{sunrise}, #{sunset}, #{precipProbability}, #{temperatureMax}, #{windSpeed}, #{latitude}, #{longitude})";
+    String INSERT_FORECAST = "INSERT INTO `weatherAPIDb`.WeatherForecast (date, summary, sunrise, sunset," +
+            " precipProbability, temperatureMax, windSpeed, latitude, longitude) values (#{date}, #{summary}," +
+            " #{sunrise}, #{sunset}, #{precipProbability}, #{temperatureMax}, #{windSpeed}, #{latitude}, #{longitude})";
 
     String GET_DAILY_FORECAST = "SELECT * FROM `weatherAPIDb`.WeatherForecast WHERE date <= (select max(date))" +
             "ORDER BY date desc LIMIT 8";

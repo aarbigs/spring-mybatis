@@ -1,10 +1,12 @@
 package mybatis.services;
+import mybatis.exceptions.APIException;
 import mybatis.mappers.DarkSkyMapper;
 import mybatis.mymodel.Darkskymodel.DarkSkyNumber3;
 import mybatis.mymodel.Darkskymodel.DarkSkyNumber4;
 import mybatis.mymodel.Darkskymodel.DarkSkyNumber5;
 import mybatis.mymodel.Darkskymodel.Location;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,6 +21,7 @@ import java.util.Date;
  * Created by aaron on 7/26/17.
  */
 @Service
+
 public class DarkSkyService {
 
     @Autowired
@@ -128,15 +131,25 @@ public class DarkSkyService {
         return darkSkyNumber4;
     }
 
-    public ArrayList<DarkSkyNumber5> getForecastByLatLngWkly(double lati, double longi) {
+    @Cacheable("DarkSky")
+    public ArrayList<DarkSkyNumber5> getForecastByLatLngWkly(double lati, double longi) throws APIException {
+        System.out.println("dark sky method hit");
         ArrayList<DarkSkyNumber5> darkSkyNumber5ArrayList = new ArrayList<>();
         if (populateDB()) {
-
+            System.out.println("1");
             String url = "https://api.darksky.net/forecast/bc22b26533e2408b35a0f5fa86ec8efd/" + lati + "," + longi;
-            Location darkSky = restTemplate.getForObject(url, Location.class);
+            Location darkSky;
+            try {
+                darkSky = restTemplate.getForObject(url, Location.class);
+                if (darkSky.getDaily().getData().length<1){
+                    throw new APIException();
+                }
+            } catch (Exception anyException){
+                throw anyException;
+            }
             DarkSkyNumber5 darkSkyNumber5;
             for (int i = 0; i < darkSky.getDaily().getData().length; i++) {
-
+                System.out.println("looping");
                 darkSkyNumber5 = new DarkSkyNumber5();
 
                 darkSkyNumber5.setDate(dateStringFromSeconds(darkSky.getDaily().getData()[i].getTime()));
@@ -149,7 +162,10 @@ public class DarkSkyService {
                 darkSkyNumber5ArrayList.add(darkSkyNumber5);
                 //weatherMapper.addNew(darkSkyNumber5);
             }
+
+            System.out.println("done looping");
             weatherMapper.addNew(darkSkyNumber5ArrayList.get(7));
+            System.out.println("returning");
             return darkSkyNumber5ArrayList;
         } else {
             //TODO: ask ryan why we have two return statements

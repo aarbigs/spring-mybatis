@@ -1,11 +1,14 @@
 package mybatis.rest_controllers;
 
+import mybatis.exceptions.APIException;
+import mybatis.exceptions.ExceptionPojo;
 import mybatis.mymodel.Darkskymodel.DarkSkyNumber3;
 import mybatis.mymodel.Darkskymodel.DarkSkyNumber4;
 import mybatis.mymodel.Darkskymodel.DarkSkyNumber5;
 import mybatis.mymodel.Darkskymodel.Location;
 import mybatis.services.DarkSkyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -44,7 +47,7 @@ public class DarkSkyController {
     }
 
     @RequestMapping("/weather/weekly")
-    public ArrayList<DarkSkyNumber5> getWeatherWeekly(@RequestParam(value="lat")double lat, @RequestParam(value="lng")double lng) {
+    public ArrayList<DarkSkyNumber5> getWeatherWeekly(@RequestParam(value="lat")double lat, @RequestParam(value="lng")double lng) throws APIException {
         return darkSkyService.getForecastByLatLngWkly(lat, lng);
     }
 
@@ -52,12 +55,21 @@ public class DarkSkyController {
     // all the data. If it does, it returns DB data. If it does not it makes an API request to DarkSky to get the forecast
     // it then backfills any missing data in the DB before returning the results
     @RequestMapping(method = RequestMethod.GET, value = "/weather/weeklyDB")
-    public ArrayList<DarkSkyNumber5> addNew(@RequestParam(value="lat")double lat, @RequestParam(value="lng")double lng) {
+    public ArrayList<DarkSkyNumber5> addNew(@RequestParam(value="lat")double lat, @RequestParam(value="lng")double lng) throws APIException {
         return darkSkyService.getForecastByLatLngWkly(lat,lng);
     }
     // This API call populates the database with 8 records using the initialDBPopulation method
     @RequestMapping(method = RequestMethod.GET, value = "/weather/populate")
     public int populate(@RequestParam(value="lat")double lat, @RequestParam(value="lng")double lng) {
         return darkSkyService.initialDBPopulation(lat,lng);
+    }
+
+    @ResponseStatus(HttpStatus.GATEWAY_TIMEOUT)  // 409
+    @ExceptionHandler(APIException.class)
+    public ExceptionPojo handleApiException() {
+        ExceptionPojo exceptionPojo = new ExceptionPojo();
+        exceptionPojo.setMessage("darksky API did not respond");
+        exceptionPojo.setErrorCode(500);
+        return exceptionPojo;
     }
 }

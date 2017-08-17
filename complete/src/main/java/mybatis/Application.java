@@ -20,9 +20,11 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Properties;
 
 @SpringBootApplication
-public class Application extends SpringBootServletInitializer {
 @EnableCaching
 @SuppressWarnings("unused")
+public class Application extends SpringBootServletInitializer {
+
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }

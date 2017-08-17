@@ -30,8 +30,11 @@ public class DarkSkyService {
     @Autowired
     DarkSkyMapper weatherMapper;
 
+    final String BASEURL = "https://api.darksky.net";
+    final String APIKEY = "d5d6460ff2179705ce6a112051b3dcc1";
+
     public Location getForecastByLatLng(double lati, double longi){
-        Location darkSky = restTemplate.getForObject("https://api.darksky.net/forecast/bc22b26533e2408b35a0f5fa86ec8efd/"+lati+","+longi+"/", Location.class);
+        Location darkSky = restTemplate.getForObject(BASEURL+"/forecast/"+APIKEY+"/"+lati+","+longi+"/", Location.class);
         return darkSky;
     }
 
@@ -53,7 +56,7 @@ public class DarkSkyService {
 
 
     public Location getForecastByLatLngDate(double lati, double longi, String dateStr) {
-        String url = "https://api.darksky.net/forecast/bc22b26533e2408b35a0f5fa86ec8efd/"+lati+","+longi+","+TimeToSeconds(dateStr);
+        String url = BASEURL+"/forecast/"+APIKEY+lati+","+longi+","+TimeToSeconds(dateStr);
         Location darkSky = restTemplate.getForObject(
                 url, Location.class);
         return darkSky;
@@ -73,7 +76,7 @@ public class DarkSkyService {
 
             for (long i = TimeToSeconds(dateStr); i < 1483228800; i += 31557600) {
 
-                String url = "https://api.darksky.net/forecast/bc22b26533e2408b35a0f5fa86ec8efd/" + lati + "," + longi + "," + i;
+                String url = BASEURL+"/forecast/"+APIKEY+"/" + lati + "," + longi + "," + i;
                 Location darkSky = restTemplate.getForObject(url, Location.class);
 
                 DarkSkyNumber3 darkSkyNumber3 = new DarkSkyNumber3();
@@ -92,7 +95,7 @@ public class DarkSkyService {
         }
 
     public DarkSkyNumber4 getForecastByLatLngHrly(double lati, double longi){
-        String url = "https://api.darksky.net/forecast/bc22b26533e2408b35a0f5fa86ec8efd/"+lati+","+longi;
+        String url = BASEURL+"/forecast/"+APIKEY+"/"+lati+","+longi;
         Location darkSky = restTemplate.getForObject(url, Location.class);
 
         DarkSkyNumber4 darkSkyNumber4 = new DarkSkyNumber4();
@@ -137,7 +140,7 @@ public class DarkSkyService {
         ArrayList<DarkSkyNumber5> darkSkyNumber5ArrayList = new ArrayList<>();
         if (populateDB()) {
             System.out.println("1");
-            String url = "https://api.darksky.net/forecast/bc22b26533e2408b35a0f5fa86ec8efd/" + lati + "," + longi;
+            String url = BASEURL+"/forecast/"+APIKEY+"/" + lati + "," + longi;
             Location darkSky;
             try {
                 darkSky = restTemplate.getForObject(url, Location.class);
@@ -183,7 +186,7 @@ public class DarkSkyService {
 //    }
 //
     public int initialDBPopulation(double lati, double longi) {
-        String url = "https://api.darksky.net/forecast/bc22b26533e2408b35a0f5fa86ec8efd/" + lati + "," + longi;
+        String url = BASEURL+"/forecast/"+APIKEY+"/" + lati + "," + longi;
         Location darkSky = restTemplate.getForObject(url, Location.class);
         DarkSkyNumber5 darkSkyNumber5;
         for (int i = 0; i < darkSky.getDaily().getData().length; i++) {
